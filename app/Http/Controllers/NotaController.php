@@ -14,7 +14,7 @@ class NotaController extends Controller
      */
     public function index()
     {
-        //
+        return view('Nota.index');
     }
 
     /**
@@ -24,7 +24,7 @@ class NotaController extends Controller
      */
     public function create()
     {
-        //
+        return view('Nota.create');
     }
 
     /**
@@ -57,7 +57,7 @@ class NotaController extends Controller
      */
     public function edit(Nota $nota)
     {
-        //
+        return view('Nota.edit');
     }
 
     /**
