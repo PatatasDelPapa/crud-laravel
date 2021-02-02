@@ -15,10 +15,14 @@ use App\Http\Controllers\NotaController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Route::resource('nota', NotaController::class);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['middleware' => 'auth'], function() {
+    Route::get('/home', [NotaController::class, 'index'])->name('home');
+});
