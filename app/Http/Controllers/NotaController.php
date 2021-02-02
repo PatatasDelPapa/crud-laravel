@@ -37,6 +37,18 @@ class NotaController extends Controller
     public function store(Request $request)
     {
         // $datosNota = request()->all();
+
+        $campos = [
+            'Nombre' => 'required|string|max:100',
+            'Descripción' => 'required|string|max:150',
+        ];
+
+        $mensaje=[
+            'required' => 'El :attribute es requerido',
+        ];
+
+        $this->validate($request, $campos, $mensaje);
+
         $datosNota = request()->except('_token');
         Nota::insert($datosNota);
 
@@ -75,11 +87,27 @@ class NotaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $datosNota = request()->except(['_token', '_method']);
-        Nota::where('id', '=', $id)->update($datosNota);
 
-        $datos['notas'] = Nota::paginate(5);
-        return view('nota.index', $datos);
+        $campos = [
+            'Nombre' => 'required|string|max:100',
+            'Descripción' => 'required|string|max:150',
+        ];
+
+        $mensaje=[
+            'required' => 'El :attribute es requerido',
+        ];
+
+        $this->validate($request, $campos, $mensaje);
+
+        $datosNota = request()->except(['_token', '_method']);
+
+        Nota::where('id', '=', $id)->update($datosNota);
+        $nota = Nota::findOrFail($id);
+        
+        //return view('nota.edit', compact('nota'));
+        
+        return redirect('nota')->with('mensaje', 'Nota Modificada');
+
     }
 
     /**
