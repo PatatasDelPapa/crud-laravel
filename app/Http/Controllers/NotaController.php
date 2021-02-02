@@ -14,7 +14,8 @@ class NotaController extends Controller
      */
     public function index()
     {
-        return view('Nota.index');
+        $datos['notas'] = Nota::paginate(5);
+        return view('nota.index', $datos);
     }
 
     /**
@@ -24,7 +25,7 @@ class NotaController extends Controller
      */
     public function create()
     {
-        return view('Nota.create');
+        return view('nota.create');
     }
 
     /**
@@ -35,7 +36,11 @@ class NotaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $datosNota = request()->all();
+        $datosNota = request()->except('_token');
+        Nota::insert($datosNota);
+
+        return response()->json($datosNota);
     }
 
     /**
@@ -57,7 +62,7 @@ class NotaController extends Controller
      */
     public function edit(Nota $nota)
     {
-        return view('Nota.edit');
+        return view('nota.edit');
     }
 
     /**

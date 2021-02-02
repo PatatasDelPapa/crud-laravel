@@ -18,4 +18,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('Nota', NotaController::class);
+Route::resource('nota', NotaController::class);
