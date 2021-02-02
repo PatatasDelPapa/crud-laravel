@@ -40,7 +40,7 @@ class NotaController extends Controller
         $datosNota = request()->except('_token');
         Nota::insert($datosNota);
 
-        return response()->json($datosNota);
+        return redirect('nota')->with('mensaje', 'Nota agregada con éxito');
     }
 
     /**
@@ -60,9 +60,10 @@ class NotaController extends Controller
      * @param  \App\Models\Nota  $nota
      * @return \Illuminate\Http\Response
      */
-    public function edit(Nota $nota)
+    public function edit($id)
     {
-        return view('nota.edit');
+        $nota = Nota::findOrFail($id);
+        return view('nota.edit', compact('nota'));
     }
 
     /**
@@ -72,9 +73,13 @@ class NotaController extends Controller
      * @param  \App\Models\Nota  $nota
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Nota $nota)
+    public function update(Request $request, $id)
     {
-        //
+        $datosNota = request()->except(['_token', '_method']);
+        Nota::where('id', '=', $id)->update($datosNota);
+
+        $datos['notas'] = Nota::paginate(5);
+        return view('nota.index', $datos);
     }
 
     /**
@@ -83,8 +88,9 @@ class NotaController extends Controller
      * @param  \App\Models\Nota  $nota
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Nota $nota)
+    public function destroy($id)
     {
-        //
+        Nota::destroy($id);
+        return redirect('nota')->with('mensaje', 'Nota Eliminada');
     }
 }
