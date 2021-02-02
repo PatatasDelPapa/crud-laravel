@@ -18,8 +18,8 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::resource('nota', NotaController::class);
-Auth::routes();
+Route::resource('nota', NotaController::class)->middleware('auth');
+Auth::routes(['register' => false, 'reset' => false]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
